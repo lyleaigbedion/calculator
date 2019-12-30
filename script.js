@@ -25,6 +25,8 @@ let sub = false;
 let multi = false;
 let divi = false;
 let clearTotal = false;
+let addNegative = true;
+let chaining = false;
 
 let number1 = null;
 let number2 = null;
@@ -32,6 +34,7 @@ let number2 = null;
 let display = document.getElementById("display");
 
 function appendNum(){
+    addNegative = true;//set this to append negatives after you've added new number after a computation.
     if(display.innerHTML == 0 || clearTotal == true){//loosely equals so i don't need to convert to number everytime. but if i compare strings, i can keep the 0 for decimal notation.
         display.innerHTML = this.innerHTML;  
         clearTotal = false;// when the calculator finishes a computation, clicking a number before an operation should clear the calculator.
@@ -65,9 +68,16 @@ let cross = document.querySelector("[data-action='multiply']");
 let dotDash = document.querySelector("[data-action='divide']");//FINISH THESE!!!*/
 let aC = document.querySelector("[data-action='clear']");
 let neg = document.querySelector("[data-action='negative']");
+let c = document.querySelector("[data-action='undo']");
 
+function undo(){
+    display.innerHTML = "0";
+}
 
 function appendOrRemoveNegative(){
+    if(addNegative === false){
+        return 1;
+    }
     let negaSymbol = '-';
 
     if(display.innerHTML.match(/\-/g)){
@@ -78,8 +88,17 @@ function appendOrRemoveNegative(){
 }
 
 function store1(){
+    //chaining operations.
+    if(number1 && chaining){
+        
+        number2 = parseFloat(display.innerHTML);
+        store2AndOperate();
+    }
+    //chaining operations ^^^^
     number1  = parseFloat(display.innerHTML);
-    display.innerHTML = "0";
+    clearTotal = true;//use this to overwrite the value after clicking an operation
+    //display.innerHTML = "0";//matter of preference.
+    
     if(this.innerHTML == "+"){
      ad = true;
      sub = false;
@@ -105,10 +124,14 @@ function store1(){
         divi = true;   
     }
     number2 = null;//resets storage of second number.
+    chaining = true;
     
 }
 
 function store2AndOperate(){
+    if(!number1){
+        return 1;
+    }
     if(!number2){
         number2 = parseFloat(display.innerHTML);
     }
@@ -146,6 +169,8 @@ function store2AndOperate(){
         display.innerHTML = "9999999999999";
     }
     clearTotal = true;
+    addNegative = false;
+    chaining = false; //chaining should end here and allow for more continous computation...
 }
 
 function clear(){
@@ -164,6 +189,7 @@ cross.addEventListener('click', store1);
 dotDash.addEventListener('click', store1);
 neg.addEventListener('click', appendOrRemoveNegative);
 aC.addEventListener('click', clear);
+c.addEventListener('click', undo);
 let equal = document.querySelector('[data-action="calculate"]');
 
 equal.addEventListener('click', store2AndOperate);

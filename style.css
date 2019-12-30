@@ -141,6 +141,7 @@ html {
     font-size: 1.714285714em;
     padding: 0.5em 0.75em;
     text-align: right;
+    height: 110px;
   }
   
   .calculator__keys {
@@ -178,5 +179,5 @@ html {
   .key--equal {
     background-image: linear-gradient(to bottom, #fe886a, #ff7033);
     grid-column: -2;
-    grid-row: 2 / span 3;
+    grid-row: 3 / span 2;
   }
