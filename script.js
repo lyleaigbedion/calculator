@@ -35,7 +35,7 @@ let display = document.getElementById("display");
 
 function appendNum(){
     addNegative = true;//set this to append negatives after you've added new number after a computation.
-    if(display.innerHTML == 0 || clearTotal == true){//loosely equals so i don't need to convert to number everytime. but if i compare strings, i can keep the 0 for decimal notation.
+    if(display.innerHTML == 0 || clearTotal == true || display.innerHTML == "CHEEKY"){//loosely equals so i don't need to convert to number everytime. but if i compare strings, i can keep the 0 for decimal notation.
         display.innerHTML = this.innerHTML;  
         clearTotal = false;// when the calculator finishes a computation, clicking a number before an operation should clear the calculator.
     }else{
@@ -156,9 +156,13 @@ function store2AndOperate(){
         number1 = parseFloat(display.innerHTML);
     }
     if(divi){
-        display.innerHTML = operate(divide,number1,number2).toString();
-        number1 = parseFloat(display.innerHTML);
-        //divi = false;
+        if(number2 === 0){
+            display.innerHTML = "CHEEKY";
+        }else{
+            display.innerHTML = operate(divide,number1,number2).toString();
+            number1 = parseFloat(display.innerHTML);
+            //divi = false;
+        }
 
     }//overflow on calulator
     if(display.innerHTML.length > 14 && Math.abs(parseFloat(display.innerHTML)) < 9999999999999){
