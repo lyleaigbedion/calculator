@@ -1,1 +1,3 @@
-initial commit
+---
+permalink: /index.html
+---
